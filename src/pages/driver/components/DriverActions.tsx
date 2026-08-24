@@ -14,7 +14,7 @@ export default function DriverActions() {
       <Button
         
         className="ml-auto"
-        onClick={() => navigate("/conductores/agregar")}
+        onClick={() => navigate("/logistica/conductores/agregar")}
       >
         <Plus className="size-4 mr-2" /> Agregar {MODEL.name}
       </Button>

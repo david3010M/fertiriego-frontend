@@ -3,7 +3,7 @@ import type { Links, Meta } from "@/lib/pagination.interface";
 import type { BranchResource } from "@/pages/branch/lib/branch.interface";
 import { Warehouse } from "lucide-react";
 
-const ROUTE = "/almacen";
+const ROUTE = "/inventario/almacen";
 const NAME = "Almacén";
 
 export const WAREHOUSE: ModelComplete<WarehouseResource> = {

@@ -1,7 +1,7 @@
 import type { ModelComplete } from "@/lib/core.interface";
 import { Bus } from "lucide-react";
 
-const ROUTE = "/transportistas";
+const ROUTE = "/logistica/transportistas";
 const NAME = "Transportista";
 
 export const CARRIER: ModelComplete<any> = {

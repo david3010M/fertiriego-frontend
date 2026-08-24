@@ -32,7 +32,7 @@ export default function DriverEditPage() {
   useEffect(() => {
     const loadPersonData = async () => {
       if (!id) {
-        navigate("/conductores");
+        navigate("/logistica/conductores");
         return;
       }
 
@@ -43,7 +43,7 @@ export default function DriverEditPage() {
         setPersonData(person);
       } catch {
         errorToast("Error al cargar los datos del conductor");
-        navigate("/conductores");
+        navigate("/logistica/conductores");
       } finally {
         setIsLoading(false);
       }
@@ -80,7 +80,7 @@ export default function DriverEditPage() {
       successToast(
         SUCCESS_MESSAGE({ name: "Conductor", gender: false }, "edit")
       );
-      navigate("/conductores");
+      navigate("/logistica/conductores");
     } catch (error: any) {
       const errorMessage =
         ((error.response.data.message ??
@@ -118,7 +118,7 @@ export default function DriverEditPage() {
         initialData={personData}
         onSubmit={handleSubmit}
         isSubmitting={isSubmitting}
-        onCancel={() => navigate("/conductores")}
+        onCancel={() => navigate("/logistica/conductores")}
         roleId={DRIVER_ROLE_ID}
         isWorker={false}
         showDriverLicense={true}

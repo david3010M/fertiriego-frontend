@@ -50,7 +50,7 @@ export default function CarrierAddPage() {
       successToast(
         SUCCESS_MESSAGE({ name: "Transportista", gender: false }, "create"),
       );
-      navigate("/transportistas");
+      navigate("/logistica/transportistas");
     } catch (error: any) {
       const errorMessage =
         ((error.response.data.message ??
@@ -77,7 +77,7 @@ export default function CarrierAddPage() {
       <PersonForm
         onSubmit={handleSubmit}
         isSubmitting={isSubmitting}
-        onCancel={() => navigate("/transportistas")}
+        onCancel={() => navigate("/logistica/transportistas")}
         roleId={CARRIER_ROLE_ID}
         isWorker={false}
       />

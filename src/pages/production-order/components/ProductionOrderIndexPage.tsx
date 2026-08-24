@@ -117,7 +117,7 @@ export default function ProductionOrderIndexPage() {
         onView: (id) => navigate(`${ROUTE}/${id}`),
         onEdit: (id) => navigate(ROUTE_UPDATE.replace(":id", id.toString())),
         onGenerateDocument: (id) =>
-          navigate("/documentos-produccion/agregar", {
+          navigate("/produccion/documentos-produccion/agregar", {
             state: { fromOrderId: id },
           }),
         onSubmit: handleSubmit,

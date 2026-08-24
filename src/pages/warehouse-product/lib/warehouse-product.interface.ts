@@ -2,7 +2,7 @@ import type { ModelComplete } from "@/lib/core.interface";
 import type { Links, Meta } from "@/lib/pagination.interface";
 import { Package } from "lucide-react";
 
-const ROUTE = "/producto-almacen";
+const ROUTE = "/inventario/producto-almacen";
 const NAME = "Producto de Almacén";
 
 export const WAREHOUSE_PRODUCT: ModelComplete<WarehouseProductResource> = {

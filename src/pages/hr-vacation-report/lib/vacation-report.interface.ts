@@ -4,7 +4,7 @@ export const VACATION_REPORT_SCHEDULED_ENDPOINT = "/vacations/reports/scheduled"
 export const VACATION_REPORT_BALANCE_ENDPOINT = "/vacations/reports/balance";
 export const VACATION_REPORT_REQUESTS_ENDPOINT = "/vacations/reports/requests";
 
-export const VACATION_REPORT_ROUTE = "/reportes/vacaciones";
+export const VACATION_REPORT_ROUTE = "/vacaciones/reporte";
 
 export const VACATION_REPORT_META = {
   MODEL: {

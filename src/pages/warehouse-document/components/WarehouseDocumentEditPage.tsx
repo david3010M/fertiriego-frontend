@@ -51,7 +51,7 @@ export default function WarehouseDocumentEditPage() {
 
       await updateDocument(parseInt(id), payload);
       successToast("Documento actualizado exitosamente");
-      navigate("/documentos-almacen");
+      navigate("/inventario/documentos-almacen");
     } catch (error: any) {
       const errorMessage =
         error.response.data.message ??

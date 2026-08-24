@@ -708,7 +708,7 @@ export default function App() {
           />
 
           <Route
-            path="/conductores/agregar"
+            path="/logistica/conductores/agregar"
             element={
               <ProtectedRoute path={DriverRoute}>
                 <DriverAddPage />
@@ -717,7 +717,7 @@ export default function App() {
           />
 
           <Route
-            path="/conductores/editar/:id"
+            path="/logistica/conductores/editar/:id"
             element={
               <ProtectedRoute path={DriverRoute}>
                 <DriverEditPage />
@@ -726,7 +726,7 @@ export default function App() {
           />
 
           <Route
-            path={"/transportistas"}
+            path={CarrierRoute}
             element={
               <ProtectedRoute path={CarrierRoute}>
                 <CarrierPage />
@@ -735,7 +735,7 @@ export default function App() {
           />
 
           <Route
-            path="/transportistas/agregar"
+            path="/logistica/transportistas/agregar"
             element={
               <ProtectedRoute path={CarrierRoute}>
                 <CarrierAddPage />
@@ -744,7 +744,7 @@ export default function App() {
           />
 
           <Route
-            path="/transportistas/editar/:id"
+            path="/logistica/transportistas/editar/:id"
             element={
               <ProtectedRoute path={CarrierRoute}>
                 <CarrierEditPage />
@@ -933,7 +933,7 @@ export default function App() {
           />
 
           <Route
-            path="/documentos-almacen/agregar"
+            path="/inventario/documentos-almacen/agregar"
             element={
               <ProtectedRoute path={WarehouseDocumentRoute}>
                 <WarehouseDocumentAddPage />
@@ -941,7 +941,7 @@ export default function App() {
             }
           />
           <Route
-            path="/documentos-almacen/:id"
+            path="/inventario/documentos-almacen/:id"
             element={
               <ProtectedRoute path={WarehouseDocumentRoute}>
                 <WarehouseDocumentDetailPage />
@@ -950,7 +950,7 @@ export default function App() {
           />
 
           <Route
-            path="/documentos-almacen/actualizar/:id"
+            path="/inventario/documentos-almacen/actualizar/:id"
             element={
               <ProtectedRoute path={WarehouseDocumentRoute}>
                 <WarehouseDocumentEditPage />
@@ -959,18 +959,18 @@ export default function App() {
           />
 
           <Route
-            path="/kardex"
+            path="/inventario/kardex"
             element={
-              <ProtectedRoute path="/kardex">
+              <ProtectedRoute path="/inventario/kardex">
                 <WarehouseKardexPage />
               </ProtectedRoute>
             }
           />
 
           <Route
-            path="/inventario-valorizado"
+            path="/inventario/inventario-valorizado"
             element={
-              <ProtectedRoute path="/inventario-valorizado">
+              <ProtectedRoute path="/inventario/inventario-valorizado">
                 <ValuatedInventoryPage />
               </ProtectedRoute>
             }
@@ -1247,7 +1247,7 @@ export default function App() {
           />
 
           <Route
-            path="/documentos-produccion/:id"
+            path="/produccion/documentos-produccion/:id"
             element={
               <ProtectedRoute path={ProductionDocumentRoute}>
                 <ProductionDocumentDetailPage />
@@ -1256,18 +1256,18 @@ export default function App() {
           />
 
           <Route
-            path="/documentos-produccion/reporte-rendimiento"
+            path="/produccion/reporte-rendimiento"
             element={
-              <ProtectedRoute path={ProductionDocumentRoute}>
+              <ProtectedRoute path="/produccion/reporte-rendimiento">
                 <ProductionDocumentPerformanceReportPage />
               </ProtectedRoute>
             }
           />
 
           <Route
-            path="/documentos-produccion/reporte-costos"
+            path="/produccion/reporte-costos"
             element={
-              <ProtectedRoute path={ProductionDocumentRoute}>
+              <ProtectedRoute path="/produccion/reporte-costos">
                 <ProductionDocumentCostReportPage />
               </ProtectedRoute>
             }
@@ -1304,14 +1304,14 @@ export default function App() {
           <Route
             path={ProductionOrderPendingRoute}
             element={
-              <ProtectedRoute path={ProductionOrderRoute}>
+              <ProtectedRoute path={ProductionOrderPendingRoute}>
                 <ProductionOrderPendingPage />
               </ProtectedRoute>
             }
           />
 
           <Route
-            path="/ordenes-produccion/:id"
+            path="/produccion/ordenes-produccion/:id"
             element={
               <ProtectedRoute path={ProductionOrderRoute}>
                 <ProductionOrderDetailPage />

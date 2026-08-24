@@ -3,7 +3,7 @@ import type { Links, Meta } from "@/lib/pagination.interface";
 import { FileText } from "lucide-react";
 import type { WarehouseDocumentSchema } from "./warehouse-document.schema";
 
-const ROUTE = "/documentos-almacen";
+const ROUTE = "/inventario/documentos-almacen";
 const NAME = "Documento de Almacén";
 
 export const WAREHOUSE_DOCUMENT: ModelComplete<WarehouseDocumentSchema> = {

@@ -12,6 +12,9 @@ import {
   DollarSign,
   CalendarClock,
   ListChecks,
+  Factory,
+  Truck,
+  Plane,
 } from "lucide-react";
 import {
   Sidebar,
@@ -414,6 +417,7 @@ const data = {
       title: "Dashboard",
       url: "/inicio",
       icon: LayoutGrid,
+      alwaysVisible: true,
     },
     {
       title: "Compras",
@@ -497,6 +501,16 @@ const data = {
           url: AccountsReceivableRoute,
           icon: AccountsReceivableIcon,
         },
+        {
+          title: BoxTitle,
+          url: BoxRoute,
+          icon: BoxIcon,
+        },
+        {
+          title: BoxShiftTitle,
+          url: BoxShiftRoute,
+          icon: BoxShiftIcon,
+        },
       ],
     },
     {
@@ -530,11 +544,6 @@ const data = {
           icon: ProductTagIcon,
         },
         {
-          title: WarehouseProductTitle,
-          url: WarehouseProductRoute,
-          icon: WarehouseProductIcon,
-        },
-        {
           title: BrandTitle,
           url: BrandRoute,
           icon: BrandIcon,
@@ -566,6 +575,13 @@ const data = {
           url: WorkerRoute,
           icon: WorkerIcon,
         },
+      ],
+    },
+    {
+      title: "Logística",
+      url: "#",
+      icon: Truck,
+      items: [
         {
           title: DriverTitle,
           url: DriverRoute,
@@ -576,10 +592,15 @@ const data = {
           url: CarrierRoute,
           icon: CarrierIcon,
         },
+        {
+          title: VehicleTitle,
+          url: VehicleRoute,
+          icon: VehicleIcon,
+        },
       ],
     },
     {
-      title: "Personal",
+      title: "Asistencia",
       url: "#",
       icon: CalendarClock,
       items: [
@@ -608,6 +629,13 @@ const data = {
           url: PunctualityRoute,
           icon: PunctualityIcon,
         },
+      ],
+    },
+    {
+      title: "Vacaciones",
+      url: "#",
+      icon: Plane,
+      items: [
         {
           title: VacationTitle,
           url: VacationRoute,
@@ -667,23 +695,55 @@ const data = {
           url: BranchRoute,
           icon: BranchIcon,
         },
+      ],
+    },
+    {
+      title: "Inventario",
+      url: "#",
+      icon: Warehouse,
+      items: [
         {
           title: WarehouseTitle,
           url: WarehouseRoute,
           icon: WarehouseIcon,
         },
-      ],
-    },
-    {
-      title: "Operaciones",
-      url: "#",
-      icon: BoxIcon,
-      items: [
         {
           title: WarehouseDocumentTitle,
           url: WarehouseDocumentRoute,
           icon: WarehouseDocumentIcon,
         },
+        {
+          title: WarehouseProductTitle,
+          url: WarehouseProductRoute,
+          icon: WarehouseProductIcon,
+        },
+        {
+          title: "Kardex",
+          url: "/inventario/kardex",
+          icon: Activity,
+        },
+        {
+          title: "Inventario Valorizado",
+          url: "/inventario/inventario-valorizado",
+          icon: Warehouse,
+        },
+        {
+          title: PredictiveTitle,
+          url: PREDICTIVE_ROUTE,
+          icon: PredictiveIcon,
+        },
+        {
+          title: DashboardMonitoringTitle,
+          url: DASHBOARD_MONITORING_ROUTE,
+          icon: DashboardMonitoringIcon,
+        },
+      ],
+    },
+    {
+      title: "Producción",
+      url: "#",
+      icon: Factory,
+      items: [
         {
           title: ProductionDocumentTitle,
           url: ProductionDocumentRoute,
@@ -701,50 +761,15 @@ const data = {
         },
         {
           title: "Reporte de Rendimiento",
-          url: "/documentos-produccion/reporte-rendimiento",
+          url: "/produccion/reporte-rendimiento",
           icon: TrendingUp,
         },
         {
           title: "Reporte de Costos",
-          url: "/documentos-produccion/reporte-costos",
+          url: "/produccion/reporte-costos",
           icon: DollarSign,
         },
-        {
-          title: "Kardex",
-          url: "/kardex",
-          icon: Activity,
-        },
-        {
-          title: "Inventario Valorizado",
-          url: "/inventario-valorizado",
-          icon: Warehouse,
-        },
-        {
-          title: BoxTitle,
-          url: BoxRoute,
-          icon: BoxIcon,
-        },
-        {
-          title: BoxShiftTitle,
-          url: BoxShiftRoute,
-          icon: BoxShiftIcon,
-        },
-        {
-          title: VehicleTitle,
-          url: VehicleRoute,
-          icon: VehicleIcon,
-        },
       ],
-    },
-    {
-      title: PredictiveTitle,
-      url: PREDICTIVE_ROUTE,
-      icon: PredictiveIcon,
-    },
-    {
-      title: DashboardMonitoringTitle,
-      url: DASHBOARD_MONITORING_ROUTE,
-      icon: DashboardMonitoringIcon,
     },
     {
       title: "Seguridad",
@@ -788,14 +813,24 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
     if (!access) return;
 
-    const filterNav = (items: any[]) =>
-      items.filter((item) => {
-        if (item.url === "#" && item.items) {
-          item.items = filterNav(item.items);
-          return item.items.length > 0;
+    const filterNav = (items: any[]): any[] =>
+      items.reduce<any[]>((acc, item) => {
+        if (item.alwaysVisible) {
+          acc.push(item);
+          return acc;
         }
-        return hasAccessToRoute(access, item.url);
-      });
+        if (item.url === "#" && item.items) {
+          const filteredItems = filterNav(item.items);
+          if (filteredItems.length > 0) {
+            acc.push({ ...item, items: filteredItems });
+          }
+          return acc;
+        }
+        if (hasAccessToRoute(access, item.url)) {
+          acc.push(item);
+        }
+        return acc;
+      }, []);
 
     setFilteredNav(filterNav(data.navMain));
   }, [access, user]);

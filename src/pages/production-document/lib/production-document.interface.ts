@@ -212,10 +212,10 @@ export const PRODUCTION_DOCUMENT_QUERY_KEY = "production-documents";
 
 // ===== ROUTES =====
 
-export const ProductionDocumentRoute = "/documentos-produccion";
-export const ProductionDocumentAddRoute = "/documentos-produccion/agregar";
-export const ProductionDocumentEditRoute = "/documentos-produccion/actualizar/:id";
-export const ProductionDocumentDetailRoute = "/documentos-produccion/:id";
+export const ProductionDocumentRoute = "/produccion/documentos-produccion";
+export const ProductionDocumentAddRoute = "/produccion/documentos-produccion/agregar";
+export const ProductionDocumentEditRoute = "/produccion/documentos-produccion/actualizar/:id";
+export const ProductionDocumentDetailRoute = "/produccion/documentos-produccion/:id";
 
 // ===== STATUS OPTIONS =====
 

@@ -32,7 +32,7 @@ export default function CarrierEditPage() {
   useEffect(() => {
     const loadPersonData = async () => {
       if (!id) {
-        navigate("/transportistas");
+        navigate("/logistica/transportistas");
         return;
       }
 
@@ -43,7 +43,7 @@ export default function CarrierEditPage() {
         setPersonData(person);
       } catch {
         errorToast("Error al cargar los datos del transportista");
-        navigate("/transportistas");
+        navigate("/logistica/transportistas");
       } finally {
         setIsLoading(false);
       }
@@ -79,7 +79,7 @@ export default function CarrierEditPage() {
       successToast(
         SUCCESS_MESSAGE({ name: "Transportista", gender: false }, "edit"),
       );
-      navigate("/transportistas");
+      navigate("/logistica/transportistas");
     } catch (error: any) {
       const errorMessage =
         ((error.response.data.message ??
@@ -117,7 +117,7 @@ export default function CarrierEditPage() {
         initialData={personData}
         onSubmit={handleSubmit}
         isSubmitting={isSubmitting}
-        onCancel={() => navigate("/transportistas")}
+        onCancel={() => navigate("/logistica/transportistas")}
         roleId={CARRIER_ROLE_ID}
         isWorker={false}
       />

@@ -57,7 +57,7 @@ export default function WarehouseDocumentAddPage() {
 
       await storeWarehouseDocument(payload);
       successToast("Documento creado exitosamente");
-      navigate("/documentos-almacen");
+      navigate("/inventario/documentos-almacen");
     } catch (error: any) {
       const errorMessage =
         error.response.data.message ??
