@@ -1,6 +1,6 @@
 import { Monitor } from "lucide-react";
 
-export const DASHBOARD_MONITORING_ROUTE = "/dashboard-monitoreo";
+export const DASHBOARD_MONITORING_ROUTE = "/inventario/dashboard-monitoreo";
 export const DASHBOARD_ENDPOINT = "/dashboard";
 
 export const DASHBOARD_META = {

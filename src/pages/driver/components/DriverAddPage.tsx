@@ -50,7 +50,7 @@ export default function DriverAddPage() {
       successToast(
         SUCCESS_MESSAGE({ name: "Conductor", gender: false }, "create")
       );
-      navigate("/conductores");
+      navigate("/logistica/conductores");
     } catch (error: any) {
       const errorMessage =
         ((error.response.data.message ??
@@ -76,7 +76,7 @@ export default function DriverAddPage() {
       <PersonForm
         onSubmit={handleSubmit}
         isSubmitting={isSubmitting}
-        onCancel={() => navigate("/conductores")}
+        onCancel={() => navigate("/logistica/conductores")}
         roleId={DRIVER_ROLE_ID}
         showDriverLicense={true}
       />

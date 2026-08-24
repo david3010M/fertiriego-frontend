@@ -1,8 +1,8 @@
 import { BrainCircuit } from "lucide-react";
 
-export const PREDICTIVE_ROUTE = "/predictivo";
-export const PREDICTIVE_CONFIG_ROUTE = "/predictivo/configuracion";
-export const PREDICTIVE_METRICS_ROUTE = "/predictivo/metricas";
+export const PREDICTIVE_ROUTE = "/inventario/predictivo";
+export const PREDICTIVE_CONFIG_ROUTE = "/inventario/predictivo/configuracion";
+export const PREDICTIVE_METRICS_ROUTE = "/inventario/predictivo/metricas";
 export const PREDICTIVE_ENDPOINT = "/predictive";
 
 export const PREDICTIVE_META = {

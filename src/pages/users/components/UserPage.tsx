@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import PageSkeleton from "@/components/PageSkeleton";
 import TitleComponent from "@/components/TitleComponent";
 import UserOptions from "./UserOptions";
 import UserTable from "./UserTable";
@@ -55,12 +54,6 @@ export default function UserPage() {
       setDeleteId(null);
     }
   };
-
-  // make pagination of 10 in data
-
-  if (isLoading) return <PageSkeleton />;
-  // if (!checkRouteExists("Users")) notFound();
-  // if (!data) NotFound();
 
   return (
     <div className="space-y-4">

@@ -2,7 +2,7 @@ import type { ModelComplete } from "@/lib/core.interface";
 import type { Links, Meta } from "@/lib/pagination.interface";
 import { Truck } from "lucide-react";
 
-const ROUTE = "/vehiculos";
+const ROUTE = "/logistica/vehiculos";
 const NAME = "Vehículo";
 
 export const VEHICLE: ModelComplete<VehicleResource> = {

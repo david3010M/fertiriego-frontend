@@ -393,11 +393,11 @@ export const PRODUCTION_ORDER_ITEM_HISTORY_ENDPOINT = (itemId: number) =>
 
 // ===== ROUTES =====
 
-export const ProductionOrderRoute = "/ordenes-produccion";
-export const ProductionOrderAddRoute = "/ordenes-produccion/agregar";
-export const ProductionOrderEditRoute = "/ordenes-produccion/actualizar/:id";
-export const ProductionOrderDetailRoute = "/ordenes-produccion/:id";
-export const ProductionOrderPendingRoute = "/ordenes-produccion/pendientes-a-producir";
+export const ProductionOrderRoute = "/produccion/ordenes-produccion";
+export const ProductionOrderAddRoute = "/produccion/ordenes-produccion/agregar";
+export const ProductionOrderEditRoute = "/produccion/ordenes-produccion/actualizar/:id";
+export const ProductionOrderDetailRoute = "/produccion/ordenes-produccion/:id";
+export const ProductionOrderPendingRoute = "/produccion/pendientes-a-producir";
 
 // ===== STATUS OPTIONS =====
 
