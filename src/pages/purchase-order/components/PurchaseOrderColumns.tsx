@@ -134,8 +134,7 @@ export const PurchaseOrderColumns = ({
             pdfEndpoint={`/purchaseorder/${row.original.id}/pdf`}
             pdfFileName={`orden-compra-${row.original.correlativo}.pdf`}
             variant="separate"
-            openDirect
-          />
+            />
           <ButtonAction
             icon={Eye}
             tooltip="Ver detalle"
