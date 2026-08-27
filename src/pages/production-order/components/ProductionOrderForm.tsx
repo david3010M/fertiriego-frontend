@@ -238,7 +238,6 @@ function ComponentRow({
         <AsyncProductPicker
           placeholder="Buscar componente..."
           defaultLabel={component.component_name}
-          additionalParams={{ only_components: 1 }}
           className={cellPickerClass}
           onSelect={(value, prod) => {
             if (value && otherComponentIds.includes(value)) {
