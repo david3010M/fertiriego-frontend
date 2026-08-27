@@ -357,8 +357,6 @@ export function ProductionOrderForm({
     });
   };
 
-  const warehouseOriginId = form.watch("warehouse_origin_id");
-  const warehouseDestId = form.watch("warehouse_dest_id");
 
   useEffect(() => {
     form.setValue("items", items);
@@ -525,7 +523,6 @@ export function ProductionOrderForm({
                   label="Almacén Origen"
                   placeholder="Seleccione almacén de origen"
                   options={warehouses
-                    .filter((w) => w.id.toString() !== warehouseDestId)
                     .map((w) => ({
                       value: w.id.toString(),
                       label: w.name,
@@ -540,7 +537,6 @@ export function ProductionOrderForm({
                   label="Almacén Destino"
                   placeholder="Seleccione almacén de destino"
                   options={warehouses
-                    .filter((w) => w.id.toString() !== warehouseOriginId)
                     .map((w) => ({
                       value: w.id.toString(),
                       label: w.name,
