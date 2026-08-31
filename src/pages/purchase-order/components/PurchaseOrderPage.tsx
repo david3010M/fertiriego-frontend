@@ -34,11 +34,16 @@ export default function PurchaseOrderPage() {
   const [selectedPurchaseOrder, setSelectedPurchaseOrder] =
     useState<PurchaseOrderResource | null>(null);
 
-  const { data, isLoading, refetch } = usePurchaseOrder();
+  const { data, isLoading, refetch } = usePurchaseOrder({
+    page,
+    search,
+    per_page,
+    status: selectedStatus,
+  });
 
   useEffect(() => {
     setPage(1);
-  }, [search, per_page, selectedStatus, refetch]);
+  }, [search, per_page, selectedStatus]);
 
   const handleDelete = async () => {
     if (!deleteId) return;

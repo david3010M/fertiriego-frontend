@@ -24,8 +24,8 @@ export async function getPurchaseOrders({
 }: GetPurchaseOrdersProps): Promise<PurchaseOrderResponse> {
   const config: AxiosRequestConfig = {
     params: {
-      ...params,
       per_page: DEFAULT_PER_PAGE,
+      ...params,
     },
   };
   const { data } = await api.get<PurchaseOrderResponse>(ENDPOINT, config);
