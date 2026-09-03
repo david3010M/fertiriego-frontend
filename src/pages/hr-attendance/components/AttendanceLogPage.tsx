@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { startOfMonth, endOfMonth, format } from "date-fns";
-import { RefreshCw } from "lucide-react";
+import { Plus, RefreshCw } from "lucide-react";
 import TitleComponent from "@/components/TitleComponent";
 import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/DataTable";
@@ -11,6 +11,7 @@ import { AttendanceColumns } from "./AttendanceColumns";
 import AttendanceOptions from "./AttendanceOptions";
 import { ATTENDANCE_META } from "../lib/attendance.interface";
 import AttendanceStatusLegendDialog from "./AttendanceStatusLegendDialog";
+import AttendanceManualLogModal from "./AttendanceManualLogModal";
 
 // ============================================================================
 // DOCUMENTACIÓN DE ESTADOS DE ASISTENCIA
@@ -52,6 +53,7 @@ export default function AttendanceLogPage() {
   );
   const [personId, setPersonId] = useState("");
   const [status, setStatus] = useState("");
+  const [manualModalOpen, setManualModalOpen] = useState(false);
 
   const params = {
     page,
@@ -78,6 +80,10 @@ export default function AttendanceLogPage() {
         />
         <div className="flex items-center gap-2">
           <AttendanceStatusLegendDialog />
+          <Button onClick={() => setManualModalOpen(true)}>
+            <Plus className="size-4 mr-2" />
+            Registrar marcación
+          </Button>
           <Button
             variant="outline"
             onClick={() => refetch()}
@@ -120,6 +126,11 @@ export default function AttendanceLogPage() {
         per_page={per_page}
         setPerPage={setPerPage}
         totalData={data?.meta?.total || 0}
+      />
+
+      <AttendanceManualLogModal
+        open={manualModalOpen}
+        onClose={() => setManualModalOpen(false)}
       />
     </div>
   );
