@@ -18,7 +18,16 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Plus, Trash2, Loader, Factory, Pencil, ClipboardList, AlertTriangle, CheckCircle2 } from "lucide-react";
+import {
+  Plus,
+  Trash2,
+  Loader,
+  Factory,
+  Pencil,
+  ClipboardList,
+  AlertTriangle,
+  CheckCircle2,
+} from "lucide-react";
 import { FormSelect } from "@/components/FormSelect";
 import { DatePickerFormField } from "@/components/DatePickerFormField";
 import { GroupFormSection } from "@/components/GroupFormSection";
@@ -148,7 +157,8 @@ export function ProductionDocumentForm({
   };
   const [stockResults, setStockResults] = useState<StockCheckResult[]>([]);
   const [showStockDialog, setShowStockDialog] = useState(false);
-  const [pendingPayload, setPendingPayload] = useState<ProductionDocumentFormValues | null>(null);
+  const [pendingPayload, setPendingPayload] =
+    useState<ProductionDocumentFormValues | null>(null);
   const [checkingStock, setCheckingStock] = useState(false);
 
   const today = new Date();
@@ -165,7 +175,6 @@ export function ProductionDocumentForm({
   });
 
   const warehouseOriginId = form.watch("warehouse_origin_id");
-  const warehouseDestId = form.watch("warehouse_dest_id");
 
   // Cargar componentes iniciales cuando hay initialValues
   useEffect(() => {
@@ -358,7 +367,7 @@ export function ProductionDocumentForm({
               stock_available: available,
               sufficient: available >= c.quantity_used,
             };
-          })
+          }),
         );
         setStockResults(results);
         setPendingPayload(payload);
@@ -392,7 +401,8 @@ export function ProductionDocumentForm({
             <div className="flex items-center gap-2 p-3 bg-blue-50 text-blue-700 rounded-lg border border-blue-200">
               <ClipboardList className="h-4 w-4 flex-shrink-0" />
               <span className="text-sm font-medium">
-                Generado desde la Orden de Producción #{form.watch("production_order_id")}
+                Generado desde la Orden de Producción #
+                {form.watch("production_order_id")}
               </span>
             </div>
           ) : (
@@ -419,9 +429,18 @@ export function ProductionDocumentForm({
                     // autocompletar aquí. Solo se rellenan los datos
                     // comunes a la orden; el producto y sus componentes se
                     // completan manualmente más abajo.
-                    form.setValue("warehouse_origin_id", order.warehouse_origin_id.toString());
-                    form.setValue("warehouse_dest_id", order.warehouse_dest_id.toString());
-                    form.setValue("responsible_id", order.responsible_id.toString());
+                    form.setValue(
+                      "warehouse_origin_id",
+                      order.warehouse_origin_id.toString(),
+                    );
+                    form.setValue(
+                      "warehouse_dest_id",
+                      order.warehouse_dest_id.toString(),
+                    );
+                    form.setValue(
+                      "responsible_id",
+                      order.responsible_id.toString(),
+                    );
                     toast.success("Datos de la orden cargados correctamente");
                   } catch {
                     toast.error("Error al cargar los datos de la orden");
@@ -433,7 +452,8 @@ export function ProductionDocumentForm({
                 <div className="flex items-center gap-2 p-2 bg-blue-50 text-blue-700 rounded-md border border-blue-200 text-sm">
                   <ClipboardList className="h-4 w-4 flex-shrink-0" />
                   <span className="font-medium">
-                    Orden #{form.watch("production_order_id")} seleccionada · Campos rellenados automáticamente
+                    Orden #{form.watch("production_order_id")} seleccionada ·
+                    Campos rellenados automáticamente
                   </span>
                 </div>
               )}
@@ -451,13 +471,11 @@ export function ProductionDocumentForm({
               name="warehouse_origin_id"
               label="Almacén Origen"
               placeholder="Seleccione almacén de origen"
-              options={warehouses
-                .filter((w) => w.id.toString() !== warehouseDestId)
-                .map((w) => ({
-                  value: w.id.toString(),
-                  label: w.name,
-                  description: w.address,
-                }))}
+              options={warehouses.map((w) => ({
+                value: w.id.toString(),
+                label: w.name,
+                description: w.address,
+              }))}
               withValue
             />
 
@@ -466,13 +484,11 @@ export function ProductionDocumentForm({
               name="warehouse_dest_id"
               label="Almacén Destino"
               placeholder="Seleccione almacén de destino"
-              options={warehouses
-                .filter((w) => w.id.toString() !== warehouseOriginId)
-                .map((w) => ({
-                  value: w.id.toString(),
-                  label: w.name,
-                  description: w.address,
-                }))}
+              options={warehouses.map((w) => ({
+                value: w.id.toString(),
+                label: w.name,
+                description: w.address,
+              }))}
               withValue
             />
 
@@ -612,17 +628,27 @@ export function ProductionDocumentForm({
                       label: wp.product_name,
                       description: `Stock: ${wp.stock}`,
                     })}
-                    additionalParams={warehouseOriginId ? { warehouse_id: Number(warehouseOriginId) } : {}}
+                    additionalParams={
+                      warehouseOriginId
+                        ? { warehouse_id: Number(warehouseOriginId) }
+                        : {}
+                    }
                     disabled={!warehouseOriginId}
                     onValueChange={(value, item) =>
                       setCurrentComponent((prev) => ({
                         ...prev,
                         component_id: value,
-                        component_name: (item as WarehouseProductResource)?.product_name ?? "",
+                        component_name:
+                          (item as WarehouseProductResource)?.product_name ??
+                          "",
                       }))
                     }
                     withValue
-                    placeholder={warehouseOriginId ? "Buscar componente..." : "Seleccione primero el almacén origen"}
+                    placeholder={
+                      warehouseOriginId
+                        ? "Buscar componente..."
+                        : "Seleccione primero el almacén origen"
+                    }
                     className="md:w-full"
                   />
                 </div>
@@ -759,14 +785,23 @@ export function ProductionDocumentForm({
                   ) : (
                     <AlertTriangle className="h-4 w-4 flex-shrink-0 text-red-500" />
                   )}
-                  <span className="font-medium truncate">{r.component_name}</span>
+                  <span className="font-medium truncate">
+                    {r.component_name}
+                  </span>
                 </div>
                 <div className="text-right text-xs flex-shrink-0 ml-3 space-y-0.5">
-                  <div>Necesario: <span className="font-semibold">{r.quantity_needed}</span></div>
-                  <div>Disponible: <span className="font-semibold">{r.stock_available}</span></div>
+                  <div>
+                    Necesario:{" "}
+                    <span className="font-semibold">{r.quantity_needed}</span>
+                  </div>
+                  <div>
+                    Disponible:{" "}
+                    <span className="font-semibold">{r.stock_available}</span>
+                  </div>
                   {!r.sufficient && (
                     <div className="font-bold text-red-700">
-                      Falta: {(r.quantity_needed - r.stock_available).toFixed(2)}
+                      Falta:{" "}
+                      {(r.quantity_needed - r.stock_available).toFixed(2)}
                     </div>
                   )}
                 </div>
