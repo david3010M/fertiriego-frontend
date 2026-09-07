@@ -78,7 +78,9 @@ interface ProductionDocumentBatchFormProps {
   warehouses: WarehouseResource[];
   fromOrderId?: number;
   isSubmitting?: boolean;
-  onSubmit: (payload: CreateProductionDocumentBatchRequest) => Promise<void> | void;
+  onSubmit: (
+    payload: CreateProductionDocumentBatchRequest,
+  ) => Promise<void> | void;
 }
 
 const componentColumns: ColumnDef<ProductionOrderComponentResource>[] = [
@@ -122,8 +124,6 @@ export function ProductionDocumentBatchForm({
   });
 
   const productionOrderId = form.watch("production_order_id");
-  const warehouseOriginId = form.watch("warehouse_origin_id");
-  const warehouseDestId = form.watch("warehouse_dest_id");
 
   const { data: order, isLoading: loadingOrder } = useProductionOrderById(
     Number(productionOrderId) || 0,
@@ -148,7 +148,8 @@ export function ProductionDocumentBatchForm({
         quantity_pending: item.quantity_pending,
         status: item.status,
         selected: item.quantity_pending > 0,
-        quantity_produced: item.quantity_pending > 0 ? item.quantity_pending.toString() : "0",
+        quantity_produced:
+          item.quantity_pending > 0 ? item.quantity_pending.toString() : "0",
         labor_cost: item.labor_cost.toString(),
         overhead_cost: item.overhead_cost.toString(),
         observations: "",
@@ -159,7 +160,9 @@ export function ProductionDocumentBatchForm({
   }, [order]);
 
   const updateItem = (index: number, patch: Partial<BatchItemRow>) => {
-    setItems((prev) => prev.map((it, i) => (i === index ? { ...it, ...patch } : it)));
+    setItems((prev) =>
+      prev.map((it, i) => (i === index ? { ...it, ...patch } : it)),
+    );
   };
 
   type StockCheckResult = {
@@ -171,10 +174,13 @@ export function ProductionDocumentBatchForm({
   };
   const [stockResults, setStockResults] = useState<StockCheckResult[]>([]);
   const [showStockDialog, setShowStockDialog] = useState(false);
-  const [pendingPayload, setPendingPayload] = useState<CreateProductionDocumentBatchRequest | null>(null);
+  const [pendingPayload, setPendingPayload] =
+    useState<CreateProductionDocumentBatchRequest | null>(null);
   const [checkingStock, setCheckingStock] = useState(false);
 
-  const buildPayload = (values: GlobalFormValues): CreateProductionDocumentBatchRequest | null => {
+  const buildPayload = (
+    values: GlobalFormValues,
+  ): CreateProductionDocumentBatchRequest | null => {
     const selectedItems = items.filter((it) => it.selected);
     if (selectedItems.length === 0) {
       toast.error("Debe seleccionar al menos un producto a producir");
@@ -183,7 +189,9 @@ export function ProductionDocumentBatchForm({
     for (const it of selectedItems) {
       const qty = Number(it.quantity_produced);
       if (!qty || qty <= 0) {
-        toast.error(`La cantidad producida de "${it.product_name}" debe ser mayor a 0`);
+        toast.error(
+          `La cantidad producida de "${it.product_name}" debe ser mayor a 0`,
+        );
         return null;
       }
       if (qty > it.quantity_pending) {
@@ -194,14 +202,17 @@ export function ProductionDocumentBatchForm({
       }
     }
 
-    const batchItems: CreateProductionDocumentBatchItemRequest[] = selectedItems.map((it) => ({
-      production_order_item_id: it.production_order_item_id,
-      quantity_produced: Number(it.quantity_produced),
-      responsible_id: values.responsible_id ? Number(values.responsible_id) : undefined,
-      labor_cost: Number(it.labor_cost) || 0,
-      overhead_cost: Number(it.overhead_cost) || 0,
-      observations: it.observations || undefined,
-    }));
+    const batchItems: CreateProductionDocumentBatchItemRequest[] =
+      selectedItems.map((it) => ({
+        production_order_item_id: it.production_order_item_id,
+        quantity_produced: Number(it.quantity_produced),
+        responsible_id: values.responsible_id
+          ? Number(values.responsible_id)
+          : undefined,
+        labor_cost: Number(it.labor_cost) || 0,
+        overhead_cost: Number(it.overhead_cost) || 0,
+        observations: it.observations || undefined,
+      }));
 
     return {
       warehouse_origin_id: Number(values.warehouse_origin_id),
@@ -223,7 +234,10 @@ export function ProductionDocumentBatchForm({
     // componente entre todos los ítems seleccionados (mismo almacén origen).
     setCheckingStock(true);
     try {
-      const neededByComponent = new Map<number, { name: string; quantity: number }>();
+      const neededByComponent = new Map<
+        number,
+        { name: string; quantity: number }
+      >();
       for (const it of items.filter((i) => i.selected)) {
         for (const c of it.components) {
           const prev = neededByComponent.get(c.component_id);
@@ -234,20 +248,23 @@ export function ProductionDocumentBatchForm({
         }
       }
       const results = await Promise.all(
-        Array.from(neededByComponent.entries()).map(async ([componentId, { name, quantity }]) => {
-          const stockData = await getAllWarehouseProducts({
-            warehouse_id: Number(values.warehouse_origin_id),
-            product_id: componentId,
-          });
-          const available = stockData.find((s) => s.product_id === componentId)?.stock ?? 0;
-          return {
-            component_name: name,
-            component_id: componentId,
-            quantity_needed: quantity,
-            stock_available: available,
-            sufficient: available >= quantity,
-          };
-        }),
+        Array.from(neededByComponent.entries()).map(
+          async ([componentId, { name, quantity }]) => {
+            const stockData = await getAllWarehouseProducts({
+              warehouse_id: Number(values.warehouse_origin_id),
+              product_id: componentId,
+            });
+            const available =
+              stockData.find((s) => s.product_id === componentId)?.stock ?? 0;
+            return {
+              component_name: name,
+              component_id: componentId,
+              quantity_needed: quantity,
+              stock_available: available,
+              sufficient: available >= quantity,
+            };
+          },
+        ),
       );
       setStockResults(results);
       setPendingPayload(payload);
@@ -260,13 +277,19 @@ export function ProductionDocumentBatchForm({
   });
 
   const itemsForOrder = !!order;
-  const noPendingItems = itemsForOrder && items.every((it) => it.quantity_pending <= 0);
+  const noPendingItems =
+    itemsForOrder && items.every((it) => it.quantity_pending <= 0);
 
   return (
     <FormWrapper>
       <div className="mb-6">
         <div className="flex items-center gap-4 mb-4">
-          <TitleFormComponent title={MODEL.name} mode="create" icon={ICON} backRoute={ROUTE} />
+          <TitleFormComponent
+            title={MODEL.name}
+            mode="create"
+            icon={ICON}
+            backRoute={ROUTE}
+          />
         </div>
       </div>
 
@@ -312,15 +335,21 @@ export function ProductionDocumentBatchForm({
           {order && (
             <>
               {/* Información General */}
-              <GroupFormSection icon={Factory} title="Información General" cols={{ sm: 1, md: 2, lg: 4 }}>
+              <GroupFormSection
+                icon={Factory}
+                title="Información General"
+                cols={{ sm: 1, md: 2, lg: 4 }}
+              >
                 <FormSelect
                   control={form.control}
                   name="warehouse_origin_id"
                   label="Almacén Origen"
                   placeholder="Seleccione almacén de origen"
-                  options={warehouses
-                    .filter((w) => w.id.toString() !== warehouseDestId)
-                    .map((w) => ({ value: w.id.toString(), label: w.name, description: w.address }))}
+                  options={warehouses.map((w) => ({
+                    value: w.id.toString(),
+                    label: w.name,
+                    description: w.address,
+                  }))}
                   withValue
                 />
 
@@ -329,9 +358,11 @@ export function ProductionDocumentBatchForm({
                   name="warehouse_dest_id"
                   label="Almacén Destino"
                   placeholder="Seleccione almacén de destino"
-                  options={warehouses
-                    .filter((w) => w.id.toString() !== warehouseOriginId)
-                    .map((w) => ({ value: w.id.toString(), label: w.name, description: w.address }))}
+                  options={warehouses.map((w) => ({
+                    value: w.id.toString(),
+                    label: w.name,
+                    description: w.address,
+                  }))}
                   withValue
                 />
 
@@ -343,7 +374,9 @@ export function ProductionDocumentBatchForm({
                   useQueryHook={useWorkers}
                   mapOptionFn={(w: PersonResource) => ({
                     value: w.id.toString(),
-                    label: w.business_name || `${w.names} ${w.father_surname} ${w.mother_surname}`,
+                    label:
+                      w.business_name ||
+                      `${w.names} ${w.father_surname} ${w.mother_surname}`,
                     description: w.number_document,
                   })}
                   withValue
@@ -359,7 +392,11 @@ export function ProductionDocumentBatchForm({
               </GroupFormSection>
 
               {/* Productos a producir */}
-              <GroupFormSection icon={Package} title="Productos a Producir" cols={{ sm: 1 }}>
+              <GroupFormSection
+                icon={Package}
+                title="Productos a Producir"
+                cols={{ sm: 1 }}
+              >
                 <div className="space-y-3 w-full">
                   {items.map((item, index) => {
                     const isDone = item.quantity_pending <= 0;
@@ -378,7 +415,9 @@ export function ProductionDocumentBatchForm({
                               updateItem(index, { selected: checked === true })
                             }
                           />
-                          <span className="text-sm font-semibold flex-1">{item.product_name}</span>
+                          <span className="text-sm font-semibold flex-1">
+                            {item.product_name}
+                          </span>
                           <span className="text-xs text-muted-foreground">
                             Pendiente: <strong>{item.quantity_pending}</strong>
                           </span>
@@ -393,7 +432,9 @@ export function ProductionDocumentBatchForm({
                           <div className="p-3 space-y-3">
                             <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
                               <div>
-                                <label className="text-sm font-medium">Cant. a Producir</label>
+                                <label className="text-sm font-medium">
+                                  Cant. a Producir
+                                </label>
                                 <Input
                                   type="number"
                                   step="0.01"
@@ -401,42 +442,65 @@ export function ProductionDocumentBatchForm({
                                   max={item.quantity_pending}
                                   value={item.quantity_produced}
                                   onChange={(e) =>
-                                    updateItem(index, { quantity_produced: e.target.value })
+                                    updateItem(index, {
+                                      quantity_produced: e.target.value,
+                                    })
                                   }
                                 />
                               </div>
                               <div>
-                                <label className="text-sm font-medium">Costo Laboral (S/)</label>
+                                <label className="text-sm font-medium">
+                                  Costo Laboral (S/)
+                                </label>
                                 <Input
                                   type="number"
                                   step="0.01"
                                   min="0"
                                   value={item.labor_cost}
-                                  onChange={(e) => updateItem(index, { labor_cost: e.target.value })}
+                                  onChange={(e) =>
+                                    updateItem(index, {
+                                      labor_cost: e.target.value,
+                                    })
+                                  }
                                 />
                               </div>
                               <div>
-                                <label className="text-sm font-medium">Costo Indirecto (S/)</label>
+                                <label className="text-sm font-medium">
+                                  Costo Indirecto (S/)
+                                </label>
                                 <Input
                                   type="number"
                                   step="0.01"
                                   min="0"
                                   value={item.overhead_cost}
-                                  onChange={(e) => updateItem(index, { overhead_cost: e.target.value })}
+                                  onChange={(e) =>
+                                    updateItem(index, {
+                                      overhead_cost: e.target.value,
+                                    })
+                                  }
                                 />
                               </div>
                               <div>
-                                <label className="text-sm font-medium">Observaciones</label>
+                                <label className="text-sm font-medium">
+                                  Observaciones
+                                </label>
                                 <Input
                                   value={item.observations}
-                                  onChange={(e) => updateItem(index, { observations: e.target.value })}
+                                  onChange={(e) =>
+                                    updateItem(index, {
+                                      observations: e.target.value,
+                                    })
+                                  }
                                   placeholder="Opcional"
                                 />
                               </div>
                             </div>
 
                             {item.components.length > 0 && (
-                              <DataTable columns={componentColumns} data={item.components} />
+                              <DataTable
+                                columns={componentColumns}
+                                data={item.components}
+                              />
                             )}
                           </div>
                         )}
@@ -449,11 +513,22 @@ export function ProductionDocumentBatchForm({
           )}
 
           <div className="flex justify-end gap-3">
-            <Button type="button" variant="outline" onClick={() => navigate(ROUTE)}>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => navigate(ROUTE)}
+            >
               Cancelar
             </Button>
-            <Button type="submit" disabled={isSubmitting || checkingStock || !order}>
-              {isSubmitting || checkingStock ? <Loader className="h-4 w-4 animate-spin" /> : "Generar Documentos"}
+            <Button
+              type="submit"
+              disabled={isSubmitting || checkingStock || !order}
+            >
+              {isSubmitting || checkingStock ? (
+                <Loader className="h-4 w-4 animate-spin" />
+              ) : (
+                "Generar Documentos"
+              )}
             </Button>
           </div>
         </form>
@@ -493,18 +568,23 @@ export function ProductionDocumentBatchForm({
                   ) : (
                     <AlertTriangle className="h-4 w-4 flex-shrink-0 text-red-500" />
                   )}
-                  <span className="font-medium truncate">{r.component_name}</span>
+                  <span className="font-medium truncate">
+                    {r.component_name}
+                  </span>
                 </div>
                 <div className="text-right text-xs flex-shrink-0 ml-3 space-y-0.5">
                   <div>
-                    Necesario: <span className="font-semibold">{r.quantity_needed}</span>
+                    Necesario:{" "}
+                    <span className="font-semibold">{r.quantity_needed}</span>
                   </div>
                   <div>
-                    Disponible: <span className="font-semibold">{r.stock_available}</span>
+                    Disponible:{" "}
+                    <span className="font-semibold">{r.stock_available}</span>
                   </div>
                   {!r.sufficient && (
                     <div className="font-bold text-red-700">
-                      Falta: {(r.quantity_needed - r.stock_available).toFixed(2)}
+                      Falta:{" "}
+                      {(r.quantity_needed - r.stock_available).toFixed(2)}
                     </div>
                   )}
                 </div>
